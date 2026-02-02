@@ -9,8 +9,7 @@ if __name__ == '__main__':
     extractor = Extractor()
 
     # buscando o número máximo de páginas retornadas ao se pesquisar algum termo em cada portal
-    dict_max_url = crawler.get_max_search_pages_number_portal(portals = crawler_config.portals_template_search,
-                                                              terms = crawler_config.terms)
+    dict_max_url = crawler.get_max_search_pages_number_portal(portals = crawler_config.portals_template_search)
 
     # pegando html das paginas de buscas para puxar os links
     html_search_pages = crawler.get_html_search_pages(portals = crawler_config.portals_template_search,
@@ -21,8 +20,7 @@ if __name__ == '__main__':
     links = extractor.extract_links(dict_html = html_search_pages,
                                     portals_template = crawler_config.portals_template)
 
-    print(len)
-    pd.DataFrame(links).to_csv(r'C:\projeto\IC_HT\links_of_articles.csv',sep="~", encoding='utf-8')
-
+    print(f'Número de links extraídos: {len(links)}')
+    pd.DataFrame(links).to_csv(r'C:\projeto\IC_HT\links_of_articles_bnc_amazonas.csv',sep="~", encoding='utf-8')
 
 

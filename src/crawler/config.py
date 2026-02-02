@@ -2,7 +2,8 @@
 portals_template = {
     'cnn':'https://www.cnnbrasil.com.br',
     'carta_capital':'https://www.cartacapital.com.br',
-    'Amazonas ashshs': 'ahshshs'
+    #'amazonas_atual': 'https://amazonasatual.com.br',
+    'bnc_amazonas':'https://bncamazonas.com.br'
 }
 
 # define os termos a serem buscados
@@ -18,9 +19,13 @@ urls_search_cnn = { term: f"https://www.cnnbrasil.com.br/pagina/{page}/?search={
 # carta capital
 urls_search_cc = { term: f"https://www.cartacapital.com.br/page/{page}/?s={term}" for term in terms}
 # amazonas atual
-#amazonas_atual = { term: f"https://amazonasatual.com.br/page/{page}/?s={term}" for term in terms}
+urls_search_aa = { term: f"https://amazonasatual.com.br/page/{page}/?s={term}" for term in terms}
+# BNC amazonas
+urls_search_bnc = { term: f"https://bncamazonas.com.br/page/{page}/?s={term}" for term in terms}
 
 portals_template_search = {
     'cnn':urls_search_cnn,
-    'carta_capital':urls_search_cc
+    'carta_capital':urls_search_cc,
+    #'amazonas_atual':urls_search_aa,
+    'bnc_amazonas':urls_search_bnc
 }
