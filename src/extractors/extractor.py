@@ -6,6 +6,7 @@
 
 from bs4 import BeautifulSoup
 import re
+from crawler import config as crawler_config
 
 class Extractor:
     """
@@ -15,6 +16,7 @@ class Extractor:
         recognize_link
         extract_links
     """
+
     def __init__(self):
         pass
 
@@ -46,9 +48,20 @@ class Extractor:
         list_urls = []
         for portal, list_html_search in dict_html.items():
             for html_search in list_html_search:
-                divs_links = html_search.find_all(class_='flex flex-col gap-4')
+                if portal == 'bnc_amazonas':
+                    links = html_search.find_all("a", href=True)
+                    for link in links:
+                        # só aceitar links que sejam cards de notícia
+                        if not link.find("article"):
+                            continue
+                        if not link.find("h2"):
+                            continue
+                        urls = self.recognize_link(link, portals_template[portal])
+                        list_urls = [*list_urls, *urls]
+                else:
+                    divs_links = html_search.find_all(class_=crawler_config.portals_div_urls[portal][1])
+                    for link in divs_links:
+                        urls = self.recognize_link(link, portals_template[portal])
+                        list_urls = [*list_urls, *urls]
 
-                for link in divs_links:
-                    urls = self.recognize_link(link, portals_template[portal])
-                    list_urls = [*list_urls, *urls]
         return list_urls

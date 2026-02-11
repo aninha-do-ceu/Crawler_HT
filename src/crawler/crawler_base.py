@@ -115,6 +115,7 @@ class CrawlerBase:
                     url_max = url_max_opt
                 url = portals[portal][term]
                 for i in range(1, int(url_max)+1):
+                    print(f'Acessando pagina de busca do portal {portal} com termo {term} de número {i}')
                     if re.search(r'/pagina/(\d+)/', url):
                         url_search = re.sub(r'pagina/\d+/', f'pagina/{i}/', url)
                     elif re.search(r'/page/(\d+)/', url):

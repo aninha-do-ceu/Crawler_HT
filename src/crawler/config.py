@@ -29,3 +29,9 @@ portals_template_search = {
     #'amazonas_atual':urls_search_aa,
     'bnc_amazonas':urls_search_bnc
 }
+
+portals_div_urls = {
+    'cnn':['div', 'flex flex-col gap-4'],
+    'carta_capital': ['div','l-list__left'],
+    'bnc_amazonas':['div','grid grid-cols-1 gap-12 lg:gap-[60px]']
+}
