@@ -13,14 +13,13 @@ if __name__ == '__main__':
 
     # pegando html das paginas de buscas para puxar os links
     html_search_pages = crawler.get_html_search_pages(portals = crawler_config.portals_template_search,
-                                                      dict_max_url = dict_max_url,
-                                                      url_max_opt = 2)
+                                                      dict_max_url = dict_max_url)
 
     # puxando os links das paginas
     links = extractor.extract_links(dict_html = html_search_pages,
                                     portals_template = crawler_config.portals_template)
 
     print(f'Número de links extraídos: {len(links)}')
-    pd.DataFrame(links).to_csv(r'C:\projeto\IC_HT\links_of_articles_bnc_amazonas.csv',sep="~", encoding='utf-8')
+    pd.DataFrame(links).to_csv(r'C:\projeto\IC_HT\links_of_articles_correcao_full.csv', index=False,sep="~", encoding='utf-8')
 
 

@@ -39,19 +39,16 @@ class Extractor:
             r'.*?<h2[^>]*>(?P<title>.*?)</h2>.*?</a>',
             re.DOTALL
         )
-        matches = pattern.findall(html)
+        matches = pattern.findall(str(html))
         return matches
 
-    # def extract_links(self, portals: dict, dict_max_url: dict, terms: list, portals_template: dict):
     def extract_links(self, dict_html: dict, portals_template: dict):
-        #dict_html = self.extract_html_search_pages(portals, dict_max_url, terms)
-
         list_urls = []
         for portal, list_html_search in dict_html.items():
             for html_search in list_html_search:
-                try:
-                    urls = self.recognize_link(html_search, portals_template[portal])
+                divs_links = html_search.find_all(class_='flex flex-col gap-4')
+
+                for link in divs_links:
+                    urls = self.recognize_link(link, portals_template[portal])
                     list_urls = [*list_urls, *urls]
-                except Exception as e:
-                    print(f'erro: {e}')
         return list_urls

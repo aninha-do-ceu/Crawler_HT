@@ -83,16 +83,38 @@ class CrawlerBase:
         return dict_max_url
 
     def get_html_search_pages(self, portals: dict, dict_max_url: dict, url_max_opt: Optional[int] = None):
+        """
+        Salva a estrutura HTML das páginas de busca em
+        um dicionário onde a chave é o portal de notícias
+        e o valor uma lista que contém a estrutura HTML
+        de cada página de busca
+        parametros:
+            portals: dicionário onde cada chave refere-se a um portal
+            de notícias e o valor é um link template para busca (que muda conforme portal)
+            dict_max_url: dicionário onde cada chave refere-se a um portal
+            de notícias e o valor é um dicionário com termos buscados como chave
+            e valor o número máximo de páginas de busca presentes referentes
+            ao termo
+            url_max_opt: inteiro que define o número máximo de páginas a serem
+            acessadas. Por padrão, determina-se o número de páginas para determinado
+            termo e portal a partir do dicionário dict_max_url.
+        return:
+            dicionário onde chave é o portal de notícias
+            e valor é uma lista que contém a estrutura HTML
+        de cada página de busca
+        """
         dict_list_html_content_search = {portal: [] for portal in portals.keys()}
 
         for portal, url_terms in portals.items():
             for term, url in url_terms.items():
-                if url_max_opt is not None or url_max_opt > dict_max_url[portal][term]:
-                    url_max = url_max_opt
-                else:
+                if url_max_opt is None:
                     url_max = dict_max_url[portal][term]
+                elif url_max_opt > dict_max_url[portal][term]:
+                    url_max = dict_max_url[portal][term]
+                else:
+                    url_max = url_max_opt
                 url = portals[portal][term]
-                for i in range(1, int(url_max)):
+                for i in range(1, int(url_max)+1):
                     if re.search(r'/pagina/(\d+)/', url):
                         url_search = re.sub(r'pagina/\d+/', f'pagina/{i}/', url)
                     elif re.search(r'/page/(\d+)/', url):
@@ -100,7 +122,7 @@ class CrawlerBase:
                     if url_search:
                         content_search = self.fetch(url_search)
                         content_search = self.parse(content_search)
-                        dict_list_html_content_search[portal].append(str(content_search))
+                        dict_list_html_content_search[portal].append(content_search)
                     time.sleep(5)
 
         return dict_list_html_content_search
